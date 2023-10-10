@@ -1,7 +1,10 @@
+'''
+本代码为本次作业加密算法的实现，各函数功能请以函数注释查看
+'''
 import numpy as np
+
+
 # ip置换
-
-
 def ip_permutation(plaintext):
     IP = np.array([2, 6, 3, 1, 4, 8, 5, 7])
     return [plaintext[i-1] for i in IP]
@@ -11,36 +14,31 @@ def ip_inverse_permutation(plaintext):
     IP_INV = np.array([4, 1, 3, 5, 7, 2, 8, 6])
     return [plaintext[i-1] for i in IP_INV]
 
+
 # p10操作
-
-
 def p10_permutation(key):
     P10 = np.array([3, 5, 2, 7, 4, 10, 1, 9, 8, 6])
     return [key[i-1] for i in P10]
 
+
 # 左移一位
-
-
 def left_shift(key, num_shifts):
     return key[num_shifts:] + key[:num_shifts]
 
+
 # p8操作
-
-
 def p8_permutation(key):
     P8 = np.array([6, 3, 7, 4, 8, 5, 10, 9])
     return [key[i-1] for i in P8]
 
+
 # F函数
-
-
 def ep_permutation(right_half):
     EP = np.array([4, 1, 2, 3, 2, 3, 4, 1])
     return [right_half[i-1] for i in EP]
 
+
 # SP置换
-
-
 def sp_permutation(s):
     SP_BOX = np.array([2, 4, 3, 1])
     sp_result = [s[SP_BOX[i]-1] for i in range(len(SP_BOX))]
@@ -79,9 +77,8 @@ def generate_k2(encrypted_key):
     k2 = p8_permutation(before_k2)
     return k2
 
+
 # 异或
-
-
 def xor(arr1, arr2):
     return np.bitwise_xor(arr1, arr2)
 
@@ -166,6 +163,7 @@ def encrypt(plaintext, key):
 
     return np.array(ciphertext)
 
+
 def encrypt2(plaintext, key):
     # 密钥侧处理
     encrypted_key = p10_permutation(key)
@@ -201,6 +199,7 @@ def encrypt2(plaintext, key):
     ciphertext = ip_inverse_permutation(before_ciphertext)
 
     return np.array(ciphertext)
+
 
 def decrypt(ciphertext, key):
 
@@ -242,6 +241,7 @@ def decrypt(ciphertext, key):
 
     return np.array(plaintext)
 
+
 def decrypt2(ciphertext, key):
 
     # 密钥侧处理
@@ -282,21 +282,3 @@ def decrypt2(ciphertext, key):
     plaintext = ip_inverse_permutation(before_plaintext)
 
     return np.array(plaintext)
-
-"""
-ciphertext = [1, 0, 1, 1, 0, 1, 1, 0]  # 示例密文
-plaintext = [1, 1, 1, 1, 1, 1, 1, 1]  # 示例明文
-key = [0, 1, 0, 1, 1, 0, 1, 0, 1, 0]  # 示例密钥
-
-
-# 解密过程
-decrypted_plaintext = decrypt(ciphertext, key)
-encrypted_ciphertext = encrypt(plaintext, key)
-print("解密后的明文：", decrypted_plaintext)
-print("加密后的密文：", encrypted_ciphertext)
-"""
-
-
-
-
-     
